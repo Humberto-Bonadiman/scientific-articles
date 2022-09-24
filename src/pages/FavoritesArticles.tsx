@@ -1,6 +1,11 @@
-const FavoritesArticles = () => {
+import React from 'react';
+import Header from '../components/Header';
+
+const FavoritesArticles: React.FC = () => {
   return (
-    <div>FavoritesArticles</div>
+    <div>
+      <Header />
+    </div>
   );
 };
 

@@ -1,6 +1,11 @@
-const Search = () => {
+import React from 'react';
+import Header from '../components/Header';
+
+const Search: React.FC = () => {
   return (
-    <div>Search</div>
+    <div>
+      <Header />
+    </div>
   );
 };
 
