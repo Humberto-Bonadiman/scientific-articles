@@ -13,13 +13,13 @@ const Header: React.FC = () => {
               href="/search"
               data-testid="search__element-navbar-link-search"
             >
-              Página inicial
+              Home Page
             </Nav.Link>
             <Nav.Link
               href="/favorites"
               data-testid="favorites__element-navbar-link-favorites"
             >
-              Favoritos
+              Favorites
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
