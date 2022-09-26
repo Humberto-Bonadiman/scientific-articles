@@ -1,15 +1,11 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
-import { articlesResultInterface } from '../interfaces/articlesInterface';
+import { PropsInterface } from '../interfaces/TableArticlesInterfaces';
 
-interface Props {
-  articles: articlesResultInterface[];
-};
+const TableArticles: React.FC<PropsInterface> = ({ articles, iconFavorite }) => {
 
-const TableArticles: React.FC<Props> = ({ articles }) => {
-  const receiveProps = articles;
-
-  const resultTable = () => receiveProps.map(({
+  const resultTable = () => articles.map(({
     id,
     authors,
     types,
@@ -33,6 +29,16 @@ const TableArticles: React.FC<Props> = ({ articles }) => {
         </td>
         <td>
           <a href={ URLs } target="_blank" rel="noopener noreferrer">{ URLs }</a>
+        </td>
+        <td>
+          { iconFavorite({
+              id,
+              authors,
+              types,
+              title,
+              description,
+              URLs
+            }) }
         </td>
       </tr>
     )

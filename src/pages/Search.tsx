@@ -1,20 +1,41 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import TableArticles from '../components/TableArticles';
-import { articlesInterface } from '../interfaces/articlesInterface';
+import { articlesInterface, articlesResultInterface } from '../interfaces/articlesInterface';
 import { fetchApi } from '../services/fetchApi';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import '../styles/Search.css';
 
 const Search: React.FC = () => {
   const [articles, setArticles] = useState([]);
   const [searchArticles, setSearchArticles] = useState('');
+  const [toggleFavorite, setToggleFavorite] = useState(false);
+  const favorite = localStorage.getItem('favoriteArticles');
+  const favoriteArticles = favorite === null ? [] : JSON.parse(favorite);
+
+  const handleFavorite = ({ id, authors, types, title, description, URLs }: articlesResultInterface) => {
+    if (!(favoriteArticles.some((article: { id: string; }) => article.id === id))) {
+      localStorage.setItem('favoriteArticles', JSON.stringify([...favoriteArticles, {
+        id,
+        authors,
+        types,
+        title,
+        description,
+        URLs,
+      }]));
+    } else {
+      localStorage.setItem('favoriteArticles', JSON.stringify(favoriteArticles
+        .filter((article: { id: string; }) => article.id !== id)));
+    }
+    setToggleFavorite(!toggleFavorite);
+  };
 
   const getArticles = async () => {
     const body = [
       {
         query: searchArticles,
         page: 0,
-        pageSize: 0,
+        pageSize: 10,
         scrollId: ''
       }
     ];
@@ -38,9 +59,35 @@ const Search: React.FC = () => {
         URLs: downloadUrl,
       };
     });
-    console.log(organizedArticles);
     setArticles(organizedArticles);
   };
+
+  const heartFavorite = ({
+      id,
+      authors,
+      types,
+      title,
+      description,
+      URLs
+    }: articlesResultInterface) => {
+    const heartColor = favoriteArticles.some((article: { id: string; }) => article.id === id)
+    ? <AiFillHeart />: <AiOutlineHeart />;
+    return (
+      <span
+        className="favorite-span"
+        onClick={ () => handleFavorite({
+          id,
+          authors,
+          types,
+          title,
+          description,
+          URLs
+        }) }
+      >
+        { heartColor }
+      </span>
+    )
+  }
 
   return (
     <div>
@@ -65,7 +112,7 @@ const Search: React.FC = () => {
           </div>
         </div>
       </div>
-      <TableArticles articles={ articles } />
+      <TableArticles articles={ articles } iconFavorite={ heartFavorite } />
     </div>
   );
 };

@@ -9,3 +9,7 @@
   margin: 20px 0;
   width: 50%;
 }
+
+.input-group-text, .favorite-span {
+  cursor: pointer;
+}
