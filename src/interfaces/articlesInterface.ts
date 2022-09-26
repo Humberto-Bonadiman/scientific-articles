@@ -9,9 +9,9 @@ export interface articlesInterface {
 
 export interface articlesResultInterface {
   id: string;
-  authors: string[];
-  types: string[] | [];
-  title: string;
+  authors?: string[];
+  types?: string[] | [];
+  title?: string;
   description?: string;
-  URLs: string;
+  URLs?: string;
 }
