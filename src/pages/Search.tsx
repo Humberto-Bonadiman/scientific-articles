@@ -5,11 +5,13 @@ import { articlesInterface, articlesResultInterface } from '../interfaces/articl
 import { fetchApi } from '../services/fetchApi';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import '../styles/Search.css';
+import AdvancedPagination from '../components/AdvancedPagination';
 
 const Search: React.FC = () => {
   const [articles, setArticles] = useState([]);
   const [searchArticles, setSearchArticles] = useState('');
   const [toggleFavorite, setToggleFavorite] = useState(false);
+  const [showPagination, setShowPagination] = useState(false);
   const favorite = localStorage.getItem('favoriteArticles');
   const favoriteArticles = favorite === null ? [] : JSON.parse(favorite);
 
@@ -34,7 +36,7 @@ const Search: React.FC = () => {
     const body = [
       {
         query: searchArticles,
-        page: 0,
+        page: 1,
         pageSize: 10,
         scrollId: ''
       }
@@ -60,6 +62,7 @@ const Search: React.FC = () => {
       };
     });
     setArticles(organizedArticles);
+    setShowPagination(true);
   };
 
   const heartFavorite = ({
@@ -113,6 +116,9 @@ const Search: React.FC = () => {
         </div>
       </div>
       <TableArticles articles={ articles } iconFavorite={ heartFavorite } />
+      <div className="pagination">
+        { showPagination && <AdvancedPagination /> }
+      </div>
     </div>
   );
 };

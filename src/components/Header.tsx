@@ -16,7 +16,7 @@ const Header: React.FC = () => {
               Home Page
             </Nav.Link>
             <Nav.Link
-              href="/favorites"
+              href="/favorites/1"
               data-testid="favorites__element-navbar-link-favorites"
             >
               Favorites

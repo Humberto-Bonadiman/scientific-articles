@@ -13,3 +13,11 @@
 .input-group-text, .favorite-span {
   cursor: pointer;
 }
+
+.pagination {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 20px 0;
+}

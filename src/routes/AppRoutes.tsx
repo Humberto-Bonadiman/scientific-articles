@@ -7,7 +7,7 @@ const App: React.FC = () => {
   return useRoutes([
     { path: '/', element: <Navigate to="/search" /> },
     { path: '/search', element: <Search /> },
-    { path: '/favorites', element: <FavoritesArticles /> }
+    { path: '/favorites/:page', element: <FavoritesArticles /> }
   ]);
 };
 
