@@ -16,6 +16,7 @@ const FavoritesArticles: React.FC = () => {
   const [showPagination, setShowPagination] = useState(false);
   const favorite = localStorage.getItem('favoriteArticles');
   const favoriteArticles = favorite === null ? [] : JSON.parse(favorite);
+  const numberParams = Number(params.page);
 
   const handleFavorite = (id: string) => {
     localStorage.setItem('favoriteArticles', JSON.stringify(favoriteArticles
@@ -32,7 +33,6 @@ const FavoritesArticles: React.FC = () => {
   const numberPagination = Math.ceil(favoriteArticles.length / 10);
 
   const articlesPagination = () => {
-    const numberParams = Number(params.page);
     const firstPositionInPage = (numberParams * 10) - 9;
     const newFavorite = [];
     for (let number = firstPositionInPage; number <= (numberParams * 10); number++) {
@@ -56,6 +56,12 @@ const FavoritesArticles: React.FC = () => {
     )
   };
 
+  const nextPaginations = (nextPages: number) => {
+    const firstPositionInPage = (numberParams * 10) + (nextPages * 10) - 10;
+    if (!favoriteArticles[firstPositionInPage]) return false;
+    return true;
+  };
+
   useEffect(() => {
     discoverNumberArticles();
   }, []);
@@ -72,10 +78,10 @@ const FavoritesArticles: React.FC = () => {
           !showPagination &&
           <BasicPagination
             numberPagination={ numberPagination }
-            active={Number(params.page)}
+            active={numberParams}
           />
         }
-        {/* { showPagination && <AdvancedPagination active={Number(params.page)} route={'favorites'} /> } */}
+        { showPagination && <AdvancedPagination active={numberParams} route={'favorites'} nextPages={ nextPaginations } /> }
       </div>
     </div>
   );

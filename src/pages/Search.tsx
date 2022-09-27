@@ -109,9 +109,7 @@ const Search: React.FC = () => {
   const nextPaginations = async (numberSum: number) => {
     const pageSumFour = page + numberSum;
     const resultFunction = await fetchFunction(search, pageSumFour);
-    if (resultFunction === null) {
-      return false;
-    }
+    if (resultFunction === null) return false;
     return true;
   }
 
@@ -149,9 +147,7 @@ const Search: React.FC = () => {
         { showPagination && <AdvancedPagination
             active={page}
             route={'search'}
-            sumFivePage={ nextPaginations(5) }
-            sumFourPage={ nextPaginations(4) }
-            nextPage={ nextPaginations(1) }
+            pages={ nextPaginations }
           />
         }
       </div>

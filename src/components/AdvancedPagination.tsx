@@ -5,12 +5,11 @@ import Pagination from 'react-bootstrap/Pagination';
 interface AdvancedInterface {
   active: number;
   route: string;
-  sumFourPage: Promise<boolean>;
-  nextPage: Promise<boolean>;
-  sumFivePage: Promise<boolean>;
+  pages?(nextPage: number): Promise<boolean>;
+  nextPages?(nextPage: number): boolean;
 };
 
-const AdvancedPagination: React.FC<AdvancedInterface> = ({ active, route, sumFourPage, nextPage, sumFivePage }) => {
+const AdvancedPagination: React.FC<AdvancedInterface> = ({ active, route, pages, nextPages }) => {
   const [showFirst, setShowFirst] = useState(false);
   const [showSecond, setShowSecond] = useState(false);
   const [showLastFive, setShowLastFive] = useState(false);
@@ -33,10 +32,16 @@ const AdvancedPagination: React.FC<AdvancedInterface> = ({ active, route, sumFou
     }
   }
 
+  const showNextPagesFunction = async (numberPage: number) => {
+    if (pages) return await pages(numberPage);
+    if (nextPages) return nextPages(numberPage);
+    return false;
+  };
+
   const lastPagination = active + 5 >= 100 ? 100 : active + 5;
-  const returnFourPages = async () => setShowLastFour(await sumFourPage);
-  const returnNextPage = async () => setShowNextPage(await nextPage);
-  const returnFivePages = async () => setShowLastFive(await sumFivePage);
+  const returnFourPages = async () => setShowLastFour(await showNextPagesFunction(4));
+  const returnNextPage = async () => setShowNextPage(await showNextPagesFunction(1));
+  const returnFivePages = async () => setShowLastFive(await showNextPagesFunction(5));
 
   useEffect(() => {
     isEqualOne();
