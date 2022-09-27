@@ -75,7 +75,7 @@ const FavoritesArticles: React.FC = () => {
             active={Number(params.page)}
           />
         }
-        { showPagination && <AdvancedPagination active={Number(params.page)} route={'favorites'} /> }
+        {/* { showPagination && <AdvancedPagination active={Number(params.page)} route={'favorites'} /> } */}
       </div>
     </div>
   );

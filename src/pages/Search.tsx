@@ -16,6 +16,7 @@ const Search: React.FC = () => {
   const [showPagination, setShowPagination] = useState(false);
   const favorite = localStorage.getItem('favoriteArticles');
   const favoriteArticles = favorite === null ? [] : JSON.parse(favorite);
+  const search = JSON.parse(localStorage.getItem('searchArticles') || '');
   const page = Number(params.page);
 
   const handleFavorite = ({ id, authors, types, title, description, URLs }: articlesResultInterface) => {
@@ -35,17 +36,10 @@ const Search: React.FC = () => {
     setToggleFavorite(!toggleFavorite);
   };
 
-  const getArticles = async () => {
-    const search = JSON.parse(localStorage.getItem('searchArticles') || '');
-    let chooseSearch;
-    if (page !== 1) chooseSearch = search;
-    if (page === 1) {
-      chooseSearch = searchArticles;
-      localStorage.setItem('searchArticles', JSON.stringify(searchArticles));
-    }
+  const fetchFunction = async (querySearch: string, page: number) => {
     const body = [
       {
-        query: chooseSearch,
+        query: querySearch,
         page: page,
         pageSize: 10,
         scrollId: ''
@@ -53,7 +47,17 @@ const Search: React.FC = () => {
     ];
     const response = await fetchApi(body);
     const data = await response.json();
-    const arrayArticles = data[0].data;
+    return data[0].data;
+  }
+
+  const getArticles = async () => {
+    let chooseSearch;
+    if (page !== 1) chooseSearch = search;
+    if (page === 1) {
+      chooseSearch = searchArticles;
+      localStorage.setItem('searchArticles', JSON.stringify(searchArticles));
+    }
+    const arrayArticles = await fetchFunction(chooseSearch, page);
     const organizedArticles = arrayArticles.map(({
       id,
       authors,
@@ -102,6 +106,15 @@ const Search: React.FC = () => {
     )
   };
 
+  const nextPaginations = async (numberSum: number) => {
+    const pageSumFour = page + numberSum;
+    const resultFunction = await fetchFunction(search, pageSumFour);
+    if (resultFunction === null) {
+      return false;
+    }
+    return true;
+  }
+
   useEffect(() => {
     if (page > 1) {
       getArticles();
@@ -133,7 +146,14 @@ const Search: React.FC = () => {
       </div>
       <TableArticles articles={ articles } iconFavorite={ heartFavorite } />
       <div className="pagination">
-        { showPagination && <AdvancedPagination active={page} route={'search'} /> }
+        { showPagination && <AdvancedPagination
+            active={page}
+            route={'search'}
+            sumFivePage={ nextPaginations(5) }
+            sumFourPage={ nextPaginations(4) }
+            nextPage={ nextPaginations(1) }
+          />
+        }
       </div>
     </div>
   );
