@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import TableArticles from '../components/TableArticles';
 import { articlesInterface, articlesResultInterface } from '../interfaces/articlesInterface';
@@ -8,12 +9,14 @@ import '../styles/Search.css';
 import AdvancedPagination from '../components/AdvancedPagination';
 
 const Search: React.FC = () => {
+  const params = useParams();
   const [articles, setArticles] = useState([]);
   const [searchArticles, setSearchArticles] = useState('');
   const [toggleFavorite, setToggleFavorite] = useState(false);
   const [showPagination, setShowPagination] = useState(false);
   const favorite = localStorage.getItem('favoriteArticles');
   const favoriteArticles = favorite === null ? [] : JSON.parse(favorite);
+  const page = Number(params.page);
 
   const handleFavorite = ({ id, authors, types, title, description, URLs }: articlesResultInterface) => {
     if (!(favoriteArticles.some((article: { id: string; }) => article.id === id))) {
@@ -33,10 +36,17 @@ const Search: React.FC = () => {
   };
 
   const getArticles = async () => {
+    const search = JSON.parse(localStorage.getItem('searchArticles') || '');
+    let chooseSearch;
+    if (page !== 1) chooseSearch = search;
+    if (page === 1) {
+      chooseSearch = searchArticles;
+      localStorage.setItem('searchArticles', JSON.stringify(searchArticles));
+    }
     const body = [
       {
-        query: searchArticles,
-        page: 1,
+        query: chooseSearch,
+        page: page,
         pageSize: 10,
         scrollId: ''
       }
@@ -90,7 +100,13 @@ const Search: React.FC = () => {
         { heartColor }
       </span>
     )
-  }
+  };
+
+  useEffect(() => {
+    if (page > 1) {
+      getArticles();
+    }
+  }, []);
 
   return (
     <div>
@@ -117,7 +133,7 @@ const Search: React.FC = () => {
       </div>
       <TableArticles articles={ articles } iconFavorite={ heartFavorite } />
       <div className="pagination">
-        { showPagination && <AdvancedPagination /> }
+        { showPagination && <AdvancedPagination active={page} route={'search'} /> }
       </div>
     </div>
   );

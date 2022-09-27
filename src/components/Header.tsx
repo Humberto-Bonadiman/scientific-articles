@@ -10,7 +10,7 @@ const Header: React.FC = () => {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link
-              href="/search"
+              href="/search/1"
               data-testid="search__element-navbar-link-search"
             >
               Home Page

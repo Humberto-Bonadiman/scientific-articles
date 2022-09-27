@@ -5,8 +5,8 @@ import Search from '../pages/Search';
 
 const App: React.FC = () => {
   return useRoutes([
-    { path: '/', element: <Navigate to="/search" /> },
-    { path: '/search', element: <Search /> },
+    { path: '/', element: <Navigate to="/search/1" /> },
+    { path: '/search/:page', element: <Search /> },
     { path: '/favorites/:page', element: <FavoritesArticles /> }
   ]);
 };

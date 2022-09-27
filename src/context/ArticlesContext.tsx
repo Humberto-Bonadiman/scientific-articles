@@ -4,16 +4,19 @@ type ArticlesContextProps = {
   children: ReactNode;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-type ArticlesContextType = {};
+type ArticlesContextType = {
+  title: string;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+};
 
 const initialValue = {
-
+  title: '',
+  setTitle: () => {''},
 };
 
 export const ArticlesContext = createContext<ArticlesContextType>(initialValue);
 
 export const ArticlesContextProvider = ({ children }: ArticlesContextProps) => {
-
-  return <ArticlesContext.Provider value={{}}>{children}</ArticlesContext.Provider>;
+  const [title, setTitle] = useState(initialValue.title);
+  return <ArticlesContext.Provider value={{ title, setTitle }}>{children}</ArticlesContext.Provider>;
 };

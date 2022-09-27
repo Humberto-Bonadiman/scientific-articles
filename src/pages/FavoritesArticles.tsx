@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import { AiFillHeart } from 'react-icons/ai';
@@ -7,9 +7,11 @@ import { articlesResultInterface } from '../interfaces/articlesInterface';
 import '../styles/FavoritesArticles.css'
 import AdvancedPagination from '../components/AdvancedPagination';
 import BasicPagination from '../components/BasicPagination';
+import { ArticlesContext } from '../context/ArticlesContext';
 
 const FavoritesArticles: React.FC = () => {
   const params = useParams();
+  const { title } = useContext(ArticlesContext);
   const [toggleFavorite, setToggleFavorite] = useState(false);
   const [showPagination, setShowPagination] = useState(false);
   const favorite = localStorage.getItem('favoriteArticles');
@@ -61,6 +63,7 @@ const FavoritesArticles: React.FC = () => {
   return (
     <div>
       <Header />
+      <p>{ title }</p>
       <div className="table-articles">
         <TableArticles articles={ articlesPagination() } iconFavorite={ heartFavorite } />
       </div>
@@ -72,7 +75,7 @@ const FavoritesArticles: React.FC = () => {
             active={Number(params.page)}
           />
         }
-        { showPagination && <AdvancedPagination /> }
+        { showPagination && <AdvancedPagination active={Number(params.page)} route={'favorites'} /> }
       </div>
     </div>
   );
