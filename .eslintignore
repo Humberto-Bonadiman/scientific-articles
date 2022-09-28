@@ -1,0 +1,4 @@
+jest.config.ts
+babel.config.ts
+babel.config.js
+cypress/e2e/searchPage.cy.ts

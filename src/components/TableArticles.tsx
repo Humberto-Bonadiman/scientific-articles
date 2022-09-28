@@ -12,25 +12,25 @@ const TableArticles: React.FC<PropsInterface> = ({ articles, iconFavorite }) => 
     title,
     description,
     URLs
-  }) => {
+  }, index) => {
     return (
       <tr key={ id }>
-        <td>
+        <td data-testid="element-table-td-authors">
           { authors }
         </td>
-        <td>
+        <td data-testid="element-table-td-types">
           { types }
         </td>
-        <td>
+        <td data-testid="element-table-td-title">
           { title }
         </td>
-        <td>
+        <td data-testid="element-table-td-description">
           { description }
         </td>
-        <td>
+        <td data-testid="element-table-td-urls">
           <a href={ URLs } target="_blank" rel="noopener noreferrer">{ URLs }</a>
         </td>
-        <td>
+        <td data-testid="element-table-td-favorite">
           { iconFavorite({
               id,
               authors,
@@ -38,25 +38,25 @@ const TableArticles: React.FC<PropsInterface> = ({ articles, iconFavorite }) => 
               title,
               description,
               URLs
-            }) }
+            }, index) }
         </td>
       </tr>
-    )
+    );
   });
 
   return (
     <Table responsive>
       <thead>
         <tr className="text-center">
-          <th>Authors</th>
-          <th>Type</th>
-          <th>Title</th>
-          <th>Description</th>
-          <th>URLs</th>
-          <th>Favorite</th>
+          <th data-testid="element-table-th-authors">Authors</th>
+          <th data-testid="element-table-th-type">Type</th>
+          <th data-testid="element-table-th-title">Title</th>
+          <th data-testid="element-table-th-description">Description</th>
+          <th data-testid="element-table-th-urls">URLs</th>
+          <th data-testid="element-table-th-favorite">Favorite</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody data-testid="element-table-tbody">
         { resultTable() }
       </tbody>
     </Table>

@@ -10,14 +10,16 @@ const Header: React.FC = () => {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link
+              className="link-search"
               href="/search/1"
-              data-testid="search__element-navbar-link-search"
+              data-testid="element-navbar-link-search"
             >
               Home Page
             </Nav.Link>
             <Nav.Link
+              className="link-favorites"
               href="/favorites/1"
-              data-testid="favorites__element-navbar-link-favorites"
+              data-testid="element-navbar-link-favorites"
             >
               Favorites
             </Nav.Link>

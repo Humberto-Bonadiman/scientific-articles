@@ -5,7 +5,7 @@ import TableArticles from '../components/TableArticles';
 import { articlesInterface, articlesResultInterface } from '../interfaces/articlesInterface';
 import { fetchApi } from '../services/fetchApi';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import '../styles/Search.css';
+import '../styles/search.css';
 import AdvancedPagination from '../components/AdvancedPagination';
 
 const Search: React.FC = () => {
@@ -16,7 +16,8 @@ const Search: React.FC = () => {
   const [showPagination, setShowPagination] = useState(false);
   const favorite = localStorage.getItem('favoriteArticles');
   const favoriteArticles = favorite === null ? [] : JSON.parse(favorite);
-  const search = JSON.parse(localStorage.getItem('searchArticles') || '');
+  const getSearch = localStorage.getItem('searchArticles') || '{"name":"John"}';
+  const search = JSON.parse(getSearch);
   const page = Number(params.page);
 
   const handleFavorite = ({ id, authors, types, title, description, URLs }: articlesResultInterface) => {
@@ -86,7 +87,8 @@ const Search: React.FC = () => {
       title,
       description,
       URLs
-    }: articlesResultInterface) => {
+    }: articlesResultInterface,
+    index: number) => {
     const heartColor = favoriteArticles.some((article: { id: string; }) => article.id === id)
     ? <AiFillHeart />: <AiOutlineHeart />;
     return (
@@ -100,6 +102,7 @@ const Search: React.FC = () => {
           description,
           URLs
         }) }
+        data-testid={`element-favorite-index-${index}`}
       >
         { heartColor }
       </span>
@@ -127,6 +130,7 @@ const Search: React.FC = () => {
           <input
             type="text"
             className="form-control"
+            data-testid="element-input-form-control"
             aria-describedby="basic-addon2"
             value={ searchArticles }
             onChange={ ({ target }) => setSearchArticles(target.value) }
@@ -134,6 +138,7 @@ const Search: React.FC = () => {
           <div className="input-group-append">
             <span
               className="input-group-text"
+              data-testid="element-span-search-button"
               id="basic-addon2"
               onClick={ getArticles }
             >

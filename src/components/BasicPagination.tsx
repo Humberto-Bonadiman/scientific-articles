@@ -6,7 +6,12 @@ const BasicPagination: React.FC<BasicInterface> = ({ numberPagination, active })
   const items = [];
   for (let number = 1; number <= numberPagination; number++) {
     items.push(
-      <Pagination.Item href={`/favorites/${number}`} key={number} active={number === active}>
+      <Pagination.Item
+        href={`/favorites/${number}`}
+        key={number}
+        active={number === active}
+        data-testid={`pagination-index-${number}`}
+      >
         {number}
       </Pagination.Item>,
     );
@@ -14,7 +19,7 @@ const BasicPagination: React.FC<BasicInterface> = ({ numberPagination, active })
 
   return(
     <div>
-      <Pagination>{items}</Pagination>
+      <Pagination data-testid="pagination">{items}</Pagination>
     </div>
   );
 };
