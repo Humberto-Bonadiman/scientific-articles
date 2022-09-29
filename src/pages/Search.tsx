@@ -5,8 +5,9 @@ import TableArticles from '../components/TableArticles';
 import { articlesInterface, articlesResultInterface } from '../interfaces/articlesInterface';
 import { fetchApi } from '../services/fetchApi';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-import '../styles/search.css';
 import AdvancedPagination from '../components/AdvancedPagination';
+import Loader from 'react-ts-loaders';
+import '../styles/search.css';
 
 const Search: React.FC = () => {
   const params = useParams();
@@ -14,6 +15,7 @@ const Search: React.FC = () => {
   const [searchArticles, setSearchArticles] = useState('');
   const [toggleFavorite, setToggleFavorite] = useState(false);
   const [showPagination, setShowPagination] = useState(false);
+  const [loading, setLoading] = useState(false);
   const favorite = localStorage.getItem('favoriteArticles');
   const favoriteArticles = favorite === null ? [] : JSON.parse(favorite);
   const getSearch = localStorage.getItem('searchArticles') || '{"name":"John"}';
@@ -38,6 +40,7 @@ const Search: React.FC = () => {
   };
 
   const fetchFunction = async (querySearch: string, page: number) => {
+    setLoading(true);
     const body = [
       {
         query: querySearch,
@@ -76,6 +79,7 @@ const Search: React.FC = () => {
         URLs: downloadUrl,
       };
     });
+    setLoading(false);
     setArticles(organizedArticles);
     setShowPagination(true);
   };
@@ -148,6 +152,7 @@ const Search: React.FC = () => {
         </div>
       </div>
       <TableArticles articles={ articles } iconFavorite={ heartFavorite } />
+      { loading && <Loader type="ring" color="blue" /> }
       <div className="pagination">
         { showPagination && <AdvancedPagination
             active={page}
