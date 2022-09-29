@@ -1,3 +1,5 @@
+const reqValue = 'https://core.ac.uk/api-v2/articles/search?metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=true&faithfulMetadata=false&apiKey=5iA87XUqKRFwlIpkYTz1O6mrLnJevGhj';
+
 describe('empty spec', () => {
   it('if the header contains the correct information', () => {
     cy.visit('http://localhost:3000/favorites/1');
@@ -21,6 +23,14 @@ describe('empty spec', () => {
 
   it('if after favorite on search page the articles appear on favorites page', () => {
     cy.visit('http://localhost:3000/search/1');
+    cy.fixture('firstpagearticles').then(function(firstPageArticles) {
+      cy.intercept('POST', reqValue, {
+        status: 200,
+        body: firstPageArticles
+      }).as('firstPageArticles');
+      cy.get('[data-testid="element-span-search-button"]').click();
+      cy.wait('@firstPageArticles', {timeout: 10000});
+    });
     cy.get('[data-testid="element-span-search-button"]').click();
     cy.get('[data-testid="element-favorite-index-0"]', { timeout: 5000 }).click();
     cy.get('[data-testid="element-favorite-index-1"]', { timeout: 5000 }).click();
