@@ -38,12 +38,21 @@ describe('Test search page', () => {
         body: firstPageArticles
       }).as('firstPageArticles');
       cy.get('[data-testid="element-span-search-button"]').click();
-      cy.wait('@firstPageArticles', {timeout: 15000});
+      cy.wait('@firstPageArticles', {timeout: 10000});
     });
     cy.get('[data-testid="element-span-search-button"]').click();
     cy.get('[data-testid="element-table-tbody"]', { timeout: 5000 }).should('not.be.empty');
     cy.get('[data-testid="element-table-td-title"]').should('have.length', 10);
     cy.get('[data-testid="element-table-td-authors-0"]').should('have.text', 'Barclay, Kezia M.');
+    cy.get('[data-testid="element-table-td-authors-1"]').should('have.text', 'Bosenbark, Danielle D.');
+    cy.get('[data-testid="element-table-td-authors-2"]').should('have.text', 'Henry, Racine R.');
+    cy.get('[data-testid="element-table-td-authors-3"]').should('have.text', 'Leahy, Laura Groblewski');
+    cy.get('[data-testid="element-table-td-authors-4"]').should('have.text', 'Manturuk, Christine L.');
+    cy.get('[data-testid="element-table-td-authors-5"]').should('have.text', 'Russon, Jody Moser');
+    cy.get('[data-testid="element-table-td-authors-6"]').should('have.text', 'Gorsegner, Amanda');
+    cy.get('[data-testid="element-table-td-authors-7"]').should('have.text', 'Johnson, Cristyn A.');
+    cy.get('[data-testid="element-table-td-authors-8"]').should('have.text', 'Bennett, Patrick');
+    cy.get('[data-testid="element-table-td-authors-9"]').should('have.text', 'Sunderaraman, Preeti');
   });
 
   it('if the pagination works correctly', () => {
