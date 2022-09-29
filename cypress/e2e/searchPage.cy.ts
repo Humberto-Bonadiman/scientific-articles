@@ -1,9 +1,7 @@
 /// <reference types="cypress" />
 
-const api = 'https://core.ac.uk:443/api-v2/articles/search';
-const valueReq = 'https://core.ac.uk/api-v2/articles/search?metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=true&faithfulMetadata=false&apiKey=5iA87XUqKRFwlIpkYTz1O6mrLnJevGhj';
-const queryParams = '?metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=true&faithfulMetadata=false';
-const allRequest = `${api}${queryParams}&apiKey=${Cypress.env('key')}`;
+const yourKey = '5iA87XUqKRFwlIpkYTz1O6mrLnJevGhj';
+const valueReq = `https://core.ac.uk/api-v2/articles/search?metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=true&faithfulMetadata=false&apiKey=${yourKey}`;
 
 describe('Test search page', () => {
 

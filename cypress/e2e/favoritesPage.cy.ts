@@ -1,4 +1,5 @@
-const reqValue = 'https://core.ac.uk/api-v2/articles/search?metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=true&faithfulMetadata=false&apiKey=5iA87XUqKRFwlIpkYTz1O6mrLnJevGhj';
+const apiKey = '5iA87XUqKRFwlIpkYTz1O6mrLnJevGhj';
+const reqValue = `https://core.ac.uk/api-v2/articles/search?metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=true&faithfulMetadata=false&apiKey=${apiKey}`;
 
 describe('empty spec', () => {
   it('if the header contains the correct information', () => {
