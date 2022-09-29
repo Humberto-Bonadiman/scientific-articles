@@ -4,6 +4,7 @@ import { Table } from 'react-bootstrap';
 import { PropsInterface } from '../interfaces/TableArticlesInterfaces';
 
 const TableArticles: React.FC<PropsInterface> = ({ articles, iconFavorite }) => {
+  console.log(articles);
 
   const resultTable = () => articles.map(({
     id,
@@ -15,7 +16,7 @@ const TableArticles: React.FC<PropsInterface> = ({ articles, iconFavorite }) => 
   }, index) => {
     return (
       <tr key={ id }>
-        <td data-testid="element-table-td-authors">
+        <td data-testid={`element-table-td-authors-${index}`}>
           { authors }
         </td>
         <td data-testid="element-table-td-types">

@@ -7,7 +7,9 @@ export default defineConfig({
       bundler: 'webpack',
     },
   },
-
+  env: {
+    key: process.env.REACT_APP_API_KEY,
+  },
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here

@@ -28,6 +28,7 @@
     "check-types": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
+    "cy:run": "cypress run",
     "cypress:open": "cypress open",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx,json}",

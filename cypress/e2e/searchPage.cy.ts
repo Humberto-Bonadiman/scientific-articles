@@ -1,6 +1,12 @@
 /// <reference types="cypress" />
 
+const api = 'https://core.ac.uk:443/api-v2/articles/search';
+const valueReq = 'https://core.ac.uk/api-v2/articles/search?metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=true&faithfulMetadata=false&apiKey=5iA87XUqKRFwlIpkYTz1O6mrLnJevGhj';
+const queryParams = '?metadata=true&fulltext=false&citations=false&similar=false&duplicate=false&urls=true&faithfulMetadata=false';
+const allRequest = `${api}${queryParams}&apiKey=${Cypress.env('key')}`;
+
 describe('Test search page', () => {
+
   it('if the header contains the correct information', () => {
     cy.visit('http://localhost:3000/search/1');
     cy.get('[data-testid="element-navbar-link-search"]').should('have.text', 'Home Page');
@@ -11,7 +17,7 @@ describe('Test search page', () => {
     cy.url().should('include', 'http://localhost:3000/favorites/1');
   });
 
-  it('if the table start empty' , () => {
+  it('if the table start empty', () => {
     cy.visit('http://localhost:3000/search/1');
     cy.get('[data-testid="element-table-th-authors"]').should('have.text', 'Authors');
     cy.get('[data-testid="element-table-th-type"]').should('have.text', 'Type');
@@ -25,14 +31,33 @@ describe('Test search page', () => {
     cy.visit('http://localhost:3000/search/1');
     cy.get('[data-testid="element-input-form-control"]').should('have.text', '');
     cy.get('[data-testid="element-span-search-button"]').should('have.text', 'Search');
+    cy.get('[data-testid="element-input-form-control"]').type('title');
+    cy.fixture('firstpagearticles').then(function(firstPageArticles) {
+      cy.intercept('POST', valueReq, {
+        status: 200,
+        body: firstPageArticles
+      }).as('firstPageArticles');
+      cy.get('[data-testid="element-span-search-button"]').click();
+      cy.wait('@firstPageArticles', {timeout: 15000});
+    });
     cy.get('[data-testid="element-span-search-button"]').click();
     cy.get('[data-testid="element-table-tbody"]', { timeout: 5000 }).should('not.be.empty');
-    cy.get('[data-testid="element-table-td-authors"]').should('not.have.length.greaterThan', 10);
+    cy.get('[data-testid="element-table-td-title"]').should('have.length', 10);
+    cy.get('[data-testid="element-table-td-authors-0"]').should('have.text', 'Barclay, Kezia M.');
   });
 
   it('if the pagination works correctly', () => {
     cy.visit('http://localhost:3000/search/1');
     cy.get('[data-testid="pagination"]').should('not.exist');
+    cy.get('[data-testid="element-input-form-control"]').type('title');
+    cy.fixture('firstpagearticles').then(function(firstPageArticles) {
+      cy.intercept('POST', valueReq, {
+        status: 200,
+        body: firstPageArticles
+      }).as('firstPageArticles');
+      cy.get('[data-testid="element-span-search-button"]').click();
+      cy.wait('@firstPageArticles', {timeout: 15000});
+    });
     cy.get('[data-testid="element-span-search-button"]').click();
     cy.get('[data-testid="pagination"]', { timeout: 5000 }).should('be.visible');
     cy.get('[data-testid="pagination-index-first-1"]', { timeout: 5000 }).should('have.text', '‹Previous');
