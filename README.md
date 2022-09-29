@@ -84,7 +84,7 @@ Para rodar os testes da aplicação utilize o comando **npm run cypress:open** n
 ```javascript
   cypress:open
 ```
-Após digitar este comando o Cypress irá abrir. Clique na opção **E2E Testing**, selecione o navegador de sua prefência. Assim que o navegador abrir clique em **specs** na barra lateral (a 2ª opção) e selecione uma das opções de teste.
+Após digitar este comando o Cypress irá abrir. Clique na opção **E2E Testing** e selecione o navegador de sua preferência. Assim que o navegador abrir clique em **specs** na barra lateral (a 2ª opção) e selecione uma das opções de teste.
 
 <br/>
 Também é possível realizar digitando **npm run cy:run** no terminal.
