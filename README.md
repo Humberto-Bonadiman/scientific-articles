@@ -12,7 +12,7 @@ Neste projeto eu criei uma aplicação Front-End utilizando React com TypeScript
 
 ---
 
-## Imagem da Aplicação
+## Imagens da Aplicação
 
 Página de busca
 <br/>
