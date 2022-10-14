@@ -4,7 +4,6 @@ import { Table } from 'react-bootstrap';
 import { PropsInterface } from '../interfaces/TableArticlesInterfaces';
 
 const TableArticles: React.FC<PropsInterface> = ({ articles, iconFavorite }) => {
-  console.log(articles);
 
   const resultTable = () => articles.map(({
     id,
