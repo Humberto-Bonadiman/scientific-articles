@@ -116,6 +116,7 @@ const Search: React.FC = () => {
   const nextPaginations = async (numberSum: number) => {
     const pageSumFour = page + numberSum;
     const resultFunction = await fetchFunction(search, pageSumFour);
+    setLoading(false);
     if (resultFunction === null) return false;
     return true;
   }
@@ -123,7 +124,7 @@ const Search: React.FC = () => {
   useEffect(() => {
     if (page > 1) {
       getArticles();
-    }
+    };
   }, []);
 
   return (
